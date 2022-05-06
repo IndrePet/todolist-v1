@@ -1,42 +1,36 @@
 import express from 'express';
 import * as url from 'url';
+import bodyParser from 'body-parser';
+
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = url.fileURLToPath(new URL('.', import.meta.url));
 
 const app = express();
 const port = 3000;
 
+const items = ['Buy food', 'Cook food', 'Eat food'];
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 app.set('view engine', 'ejs');
 
 app.get('/', (req, res) => {
   const today = new Date();
-  const currentDay = today.getDay();
-  let day = '';
+  const options = {
+    weekday: 'long',
+    day: 'numeric',
+    month: 'long',
+  };
 
-  switch (currentDay) {
-    case 0:
-      day = 'Sunday';
-      break;
-    case 1:
-      day = 'Monday';
-      break;
-    case 2:
-      day = 'Tuesday';
-      break;
-    case 3:
-      day = 'Wednesday';
-      break;
-    case 4:
-      day = 'Thursday';
-      break;
-    case 5:
-      day = 'Friday';
-      break;
-    case 6:
-      day = 'Saturday';
-  }
+  const day = today.toLocaleDateString('en-us', options);
 
-  res.render('list', { kindOfDay: day });
+  res.render('list', { kindOfDay: day, newListItems: items });
+});
+
+app.post('/', (req, res) => {
+  const item = req.body.newItem;
+  items.push(item);
+  res.redirect('/');
 });
 
 app.listen(port, () => {
