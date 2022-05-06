@@ -5,18 +5,31 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
+    <link rel="stylesheet" href="./css/styles.css" />
   </head>
   <body>
-    <h1><%= kindOfDay %></h1>
-    <ul>
-      <% for(let i = 0; i < newListItems.length; i++){ %>
-      <li><%= newListItems[i] %></li>
-      <%} %>
-    </ul>
+    <div class="box">
+      <h1 id="heading"><%= kindOfDay %></h1>
+    </div>
 
-    <form action="/" method="post">
-      <input type="text" name="newItem" />
-      <input type="submit" value="Add ToDo" />
-    </form>
+    <div class="box">
+      <% for(let i = 0; i < newListItems.length; i++){ %>
+      <div class="item">
+        <input type="checkbox" />
+        <p><%= newListItems[i] %></p>
+      </div>
+
+      <%} %>
+
+      <form action="/" method="post" class="item">
+        <input
+          type="text"
+          name="newItem"
+          placeholder="Add new item"
+          autocomplete="off"
+        />
+        <button type="submit" name="button">+</button>
+      </form>
+    </div>
   </body>
 </html>
